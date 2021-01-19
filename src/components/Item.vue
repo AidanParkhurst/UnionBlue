@@ -1,7 +1,10 @@
 <template lang="pug">
-div.inline-block.bg-white.rounded-xl.h-52.shadow-md.border
-  h1.p-4.text-xl.font-sans {{ name }}
-  h2.pl-2 {{ desc }}
+div.h-80.w-80.mx-auto.my-20.bg-white.rounded-lg.shadow-md.border
+  div.w-full.h-16.bg-blue-700.text-white
+    h1.p-4.text-3xl.font-sans {{ name }}
+  h1.p-4.text-xl {{ desc }}
+  h1.p-4.text-lg {{ contact }}
+
 </template>
 
 <script lang="ts">
