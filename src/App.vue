@@ -11,13 +11,14 @@ template(v-for='item in items')
 </template>
 
 <script lang="ts">
+import {defineComponent} from 'vue'
 import Header from './components/Header.vue'
 import Item from './components/Item.vue'
 
 //TODO: Remove this, fetch from backend
 import * as inventory from './assets/ItemsTemp.json'
 
-export default {
+export default defineComponent({
   name: 'App',
   components: {
     Header,
@@ -28,5 +29,5 @@ export default {
       items: inventory.items
     }
   }
-}
+})
 </script>
