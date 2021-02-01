@@ -8,25 +8,32 @@ template(v-for='item in items')
     :imgsrc="item.img"
   )
   hr(class='w-1/2 m-auto')
+Contact(v-if="currentItem")
 </template>
 
 <script lang="ts">
+import {defineComponent} from 'vue'
 import Header from './components/Header.vue'
 import Item from './components/Item.vue'
+import Contact from './components/Contact.vue'
+
+import {currentItem} from './composables/item'
 
 //TODO: Remove this, fetch from backend
 import * as inventory from './assets/ItemsTemp.json'
 
-export default {
+export default defineComponent({
   name: 'App',
   components: {
     Header,
-    Item
+    Item,
+    Contact
   },
   data() {
     return {
-      items: inventory.items
+      items: inventory.items,
+      currentItem: currentItem
     }
   }
-}
+})
 </script>
