@@ -28,5 +28,5 @@
     "target": "es2016"
   },
   "exclude": ["dist", "node_modules"],
-  "include": ["**/*.ts", "src/**/*.vue"]
+  "include": ["**/*.ts", "src/**/*.vue", "vite.config.ts"]
 }

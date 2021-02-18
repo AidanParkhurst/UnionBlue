@@ -40,7 +40,7 @@ export default {
         },
         {
           id: "subject",
-          placeholder: "IE: \"Order for XYZ\"",
+          placeholder: "IE: \"Order for " + currentItem.value + "\"",
           label: "Subject"
         }
       ]
