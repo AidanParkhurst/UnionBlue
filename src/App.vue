@@ -7,7 +7,7 @@ template(v-for='item in items')
     :contact="item.contact"
     :imgsrc="'/img/' + item.img"
   )
-  hr(class='w-1/2 m-auto')
+  hr.border.border-blue-200(class='w-3/5 m-auto')
 Contact(v-if="currentItem")
 </template>
 

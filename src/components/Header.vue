@@ -1,6 +1,6 @@
 <template lang="pug">
 div.bg-blue-300.h-16.shadow-lg
-  img.inline.h-full.pt-2.ml-2(src='src/assets/UnionSampleLogo.png')
+  h1.text-center.font-bold.text-white UnionBlue
 </template>
 
 <script lang="ts">

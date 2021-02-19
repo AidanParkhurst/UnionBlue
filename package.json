@@ -1,6 +1,7 @@
 {
   "name": "UnionBlue",
   "version": "0.0.0",
+  "license": "UNLICENSED",
   "scripts": {
     "api": "node ./api/main.ts",
     "dev": "npm-run-all -p api vite",
