@@ -6,7 +6,7 @@ export const currentItem = ref("")
 const items = ref(Array())
 
 export const getItems = () => {
-  API.get('http://localhost:3001/api/items').then((response) => {
+  API.get('/api/items').then((response) => {
       items.value = response.data
   })
   return items

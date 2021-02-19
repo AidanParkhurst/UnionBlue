@@ -26,9 +26,9 @@ export default {
     Contact
   },
   setup() {
-
+    let items = getItems()
     return {
-      items: getItems()
+      items
     }
   },
   data() {

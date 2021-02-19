@@ -5,7 +5,7 @@ div(class="w-1/2 space-x-64 mx-auto my-12")
     div.header
       h1 {{ name }}
     h2.text-xl.p-4 {{ desc }}
-    button.bg-blue-500(@click="setCurrentItem(name)") Contact Us
+    button.bg-blue-500(@click="setCurrentItem(name)") CONTACT US
 
 </template>
 
