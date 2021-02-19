@@ -46,14 +46,17 @@ export default {
     }
   },
   methods: {
-    submitContact() {
-      let formData = new FormData()
-      formData.append('email', this.email)
-      formData.append('subject', this.subject)
-      formData.append('body', this.body)
-
-      API.post('/api/contact', formData)
-    } 
+    submitContact() {      
+      API.post('/api/contact', {
+        'email': this.email,
+        'subject': this.subject,
+        'body': this.body
+      }).then((response) => { // TODO: Handle this in a meaningful way
+        console.log(response)
+      }, (error) => {
+        console.log(error)
+      })
+    }
   }
 }
 </script>

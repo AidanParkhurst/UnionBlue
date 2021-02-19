@@ -10,6 +10,12 @@ export default {
         ws: false,
         target: 'http://localhost:3001/',
       },
+      '^/img': {
+        changeOrigin: true,
+        secure: false,      
+        ws: false,
+        target: 'http://localhost:3001/',
+      }
     },
   },
 }

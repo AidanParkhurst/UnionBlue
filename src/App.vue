@@ -5,7 +5,7 @@ template(v-for='item in items')
     :name="item.name"
     :desc="item.desc"
     :contact="item.contact"
-    :imgsrc="item.img"
+    :imgsrc="'/img/' + item.img"
   )
   hr(class='w-1/2 m-auto')
 Contact(v-if="currentItem")
