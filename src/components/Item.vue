@@ -6,7 +6,6 @@ div(class="w-2/5 mx-auto my-12")
       h1 {{ name }}
     h2.text-xl.p-4 {{ desc }}
     button.bg-blue-500(@click="setCurrentItem(name)") CONTACT US
-
 </template>
 
 <script lang="ts">
