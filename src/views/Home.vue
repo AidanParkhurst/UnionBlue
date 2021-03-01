@@ -11,10 +11,10 @@ Contact(v-if="currentItem")
 </template>
 
 <script lang="ts">
-import Item from '../components/Item.vue'
-import Contact from '../components/Contact.vue'
+import Item from '@/components/Item.vue'
+import Contact from '@/components/Contact.vue'
 
-import {currentItem, getItems} from '../composables/item'
+import {currentItem, getItems} from '@/composables/item'
 
 export default {
   name: 'Home',

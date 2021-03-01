@@ -2,7 +2,6 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
     "declaration": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -11,8 +10,9 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "noImplicitAny": false,
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["./src/*"],
     },
     "plugins": [
       {

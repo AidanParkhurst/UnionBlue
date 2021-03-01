@@ -30,8 +30,8 @@ div.shadow-2xl.fixed.m-auto.inset-0.bg-white(class="w-1/2 h-1/2")
 </template>
 
 <script lang="ts">
-import {currentItem, setCurrentItem} from '../composables/item'
-import API from '../composables/api'
+import {currentItem, setCurrentItem} from '@/composables/item'
+import API from '@/composables/api'
 
 export default {
   name: "Contact",

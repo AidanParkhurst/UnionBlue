@@ -1,5 +1,5 @@
 <template lang="pug">
-div.bg-blue-300.h-16.shadow-lg
+div.sticky.bg-blue-300.h-16.shadow-lg
   div(class="w-3/5 m-auto")
     h1.font-bold.text-white.inline.float-left UnionBlue
     router-link.link.text-white.inline.float-right(v-if='onHome' to="/about") About
