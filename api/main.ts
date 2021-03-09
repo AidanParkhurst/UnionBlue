@@ -1,6 +1,7 @@
 const path = require('path')
 
 const inventory = require('./data/items.json')
+const contacts = require('./data/contacts.json')
 
 const express = require('express')
 const app = express()
@@ -34,7 +35,7 @@ app.post('/api/contact', (req, res) => {
   const emailData = req.body
   var mailOptions = {
     from: auth.data.email,
-    to: 'bboccsgo@gmail.com',
+    to: contacts[emailData.id],
     subject: emailData.subject,
     text: emailData.body + '\nRespond at: ' + emailData.email
   }

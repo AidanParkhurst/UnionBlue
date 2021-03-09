@@ -1,16 +1,19 @@
 {
   "items": [
     {
+      "id": "1",
       "name": "Latex Free Gloves",
       "desc": "Non-sterile latex free gloves, coming in boxes of 100",
       "img": "gloves.png"
     },
     {
+      "id": "2",
       "name": "Hand Sanitizer",
       "desc": "Gallon jugs of hand sanitizer, comes in boxes of 10",
       "img": "sanitizer.jpg"
     },
     {
+      "id": "3",
       "name": "Face Masks",
       "desc": "Protective coverings for the mouth and nose, comes in boxes of 100",
       "img": "masks.jpg"

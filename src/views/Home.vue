@@ -5,6 +5,7 @@ template(v-for='item in items')
     :desc="item.desc"
     :contact="item.contact"
     :imgsrc="'/img/' + item.img"
+    :id ="item.id"
   )
   hr.border.border-blue-200(class='w-3/5 m-auto')
 Contact(v-if="currentItem")

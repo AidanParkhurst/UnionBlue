@@ -5,7 +5,7 @@ div(class="w-2/5 mx-auto my-12")
     div.header
       h1 {{ name }}
     h2.text-xl.mt-4.p-4 {{ desc }}
-    button.absolute.bottom-4.inset-x-20.bg-blue-500(@click="setCurrentItem(name)")
+    button.absolute.bottom-4.inset-x-20.bg-blue-500(@click="setCurrentItem(id, name)")
       email.inline.mr-2.mb-1.text-xl
       .inline CONTACT
 
@@ -33,6 +33,9 @@ export default {
     imgsrc: {
       type: String,
     },
+    id: {
+      type: String,
+    }
   },
   data() {
     return {

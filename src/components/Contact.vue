@@ -17,7 +17,7 @@ div.shadow-2xl.fixed.m-auto.inset-0.bg-white(class="w-1/2 h-1/2")
           input.text-input.mx-4.px-2(class="w-3/4"
             type="text"
             id="subject"
-            :placeholder="'IE: \"Order for \"' + currentItem + '\"'",
+            :placeholder="'IE: \"Order for \"' + currentItemName + '\"'",
             v-model="subject")
       textarea.text-input.my-2.p-2.w-full.h-52(
         form="contactform"
@@ -34,7 +34,7 @@ div.shadow-2xl.fixed.m-auto.inset-0.bg-white(class="w-1/2 h-1/2")
 </template>
 
 <script lang="ts">
-import {currentItem, setCurrentItem} from '@/composables/item'
+import {currentItem, currentItemName, setCurrentItem} from '@/composables/item'
 import API from '@/composables/api'
 import {Close, Send} from 'mdue'
 import {createAlert} from '@/composables/alerts'
@@ -48,6 +48,7 @@ export default {
   data() {
     return {
       currentItem,
+      currentItemName,
       setCurrentItem,
 
       createAlert,
@@ -59,9 +60,11 @@ export default {
   },
   methods: {
     submitContact() {
+      let id = this.currentItem;
       setCurrentItem('') // Closes contact form
 
       API.post('/api/contact', {
+        'id': id,
         'email': this.email,
         'subject': this.subject,
         'body': this.body
