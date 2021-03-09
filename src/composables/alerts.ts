@@ -15,7 +15,6 @@ function removeAlert(id: string) {
 }
 
 export const createAlert = (text: string, type: string, timeout = 2500) => {
-  console.log('pinagsa!')
   alert.value = {active: true, text: text, type: type}
   setTimeout(removeAlert, timeout)
 }

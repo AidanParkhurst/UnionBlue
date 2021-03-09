@@ -2,8 +2,8 @@
 div.bg-blue-300.w-full.h-16.my-0.shadow-lg
   div(class="w-3/5 m-auto")
     h1.font-bold.text-white.inline.float-left UnionBlue
-    router-link.link.text-white.inline.float-right(v-if='onHome' to="/about") About
-    router-link.link.text-white.inline.float-right(v-if='!onHome' to="/") Home
+    router-link.link(v-if='onHome' to="/about") About
+    router-link.link(v-if='!onHome' to="/") Home
 </template>
 
 <script lang="ts">

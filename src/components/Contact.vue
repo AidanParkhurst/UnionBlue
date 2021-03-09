@@ -24,18 +24,27 @@ div.shadow-2xl.fixed.m-auto.inset-0.bg-white(class="w-1/2 h-1/2")
         id="body"
         placeholder="Email Body"
         v-model="body")
-      button.bg-red-500.float-right.bottom-2.mx-4(type="button" @click="setCurrentItem('')") CANCEL
-      button.bg-blue-500.float-right.bottom-2(type="submit" form="contactform") SEND
+      button.bg-red-500.float-right.bottom-2.mx-4(type="button" @click="setCurrentItem('')")
+        close.inline.mr-2.-ml-2.mb-1.text-xl
+        .inline CANCEL
+      button.bg-blue-500.float-right.bottom-2(type="submit" form="contactform")
+        send.inline.mr-2.-ml-2.mb-1.text-xl
+        .inline SEND
       
 </template>
 
 <script lang="ts">
 import {currentItem, setCurrentItem} from '@/composables/item'
 import API from '@/composables/api'
+import {Close, Send} from 'mdue'
 import {createAlert} from '@/composables/alerts'
 
 export default {
   name: "Contact",
+  components: {
+    Close,
+    Send
+  },
   data() {
     return {
       currentItem,
