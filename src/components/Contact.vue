@@ -32,6 +32,7 @@ div.shadow-2xl.fixed.m-auto.inset-0.bg-white(class="w-1/2 h-1/2")
 <script lang="ts">
 import {currentItem, setCurrentItem} from '@/composables/item'
 import API from '@/composables/api'
+import {createAlert} from '@/composables/alerts'
 
 export default {
   name: "Contact",
@@ -40,21 +41,25 @@ export default {
       currentItem,
       setCurrentItem,
 
+      createAlert,
+
       email: '',
       subject: '',
       body: '',
     }
   },
   methods: {
-    submitContact() {      
+    submitContact() {
+      setCurrentItem('') // Closes contact form
+
       API.post('/api/contact', {
         'email': this.email,
         'subject': this.subject,
         'body': this.body
-      }).then((response) => { // TODO: Handle this in a meaningful way
-        console.log(response)
+      }).then((response) => {
+        createAlert('Email Sent!', 'success')
       }, (error) => {
-        console.log(error)
+        createAlert('Error Sending Email!', 'error')
       })
     }
   }

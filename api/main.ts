@@ -36,14 +36,14 @@ app.post('/api/contact', (req, res) => {
     from: auth.data.email,
     to: 'bboccsgo@gmail.com',
     subject: emailData.subject,
-    text: emailData.body + '\n Respond at: ' + emailData.email
+    text: emailData.body + '\nRespond at: ' + emailData.email
   }
 
   transporter.sendMail(mailOptions, function(error, info) {
     if(error) {
-      console.log(error)
+      res.error(error)
     } else {
-      console.log('Email sent: ' + info.response)
+      res.send('Email sent: ' + info.response)
     }
   })
 })
