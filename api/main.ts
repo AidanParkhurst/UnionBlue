@@ -1,6 +1,8 @@
 const path = require('path')
 
 const inventory = require('./data/items.json')
+let items = inventory.items
+
 const contacts = require('./data/contacts.json')
 
 const express = require('express')
@@ -26,7 +28,7 @@ const transporter = nodemailer.createTransport({
 });
 
 app.get('/api/items', cors(), (req,res) => {
-  res.send(inventory.items)
+  res.send(items)
 })
 
 app.use(bodyParser.json());
@@ -47,6 +49,37 @@ app.post('/api/contact', (req, res) => {
       res.send('Email sent: ' + info.response)
     }
   })
+})
+
+app.post('/api/addItem', (req, res) => {
+  const addData = req.body
+  let prevLen = items.length
+
+  items.push({
+    'id': items.length.toString(),
+    'name': addData.name,
+    'desc': addData.desc,
+    'img': addData.img
+  })
+
+  if(prevLen >= items.length) {
+    res.send('Item added!')
+  } else {
+    res.send('Could not add item')
+  }
+})
+
+app.post('/api/deleteItem', (req,res) => {
+  const deleteData = req.body
+  let prevLen = items.length
+
+  items = items.filter((x) => {return x.id !== deleteData.id})
+  
+  if(prevLen <= items.length) {
+    res.send('Item deleted!')
+  } else {
+    res.send('Could not find item')
+  }
 })
 
 app.use('/img', express.static(path.join(__dirname,'/img')))
