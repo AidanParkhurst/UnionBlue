@@ -1,9 +1,10 @@
 <template lang="pug">
-div.shadow-2xl.fixed.m-auto.inset-0.bg-white(class="w-1/2 h-1/2")
-  div.header
-    h1 Contact
-  div.p-4
-    form(id="contactform" @submit.prevent="submitContact")
+Modal
+  template(v-slot:header)
+    div.header
+      h1 Contact
+  template(v-slot:body)
+    form.px-4(id="contactform" @submit.prevent="submitContact")
       input(type="hidden" name="item" :value="currentItem")
       div.py-2
           label.text-2xl(for="email") Email:
@@ -24,13 +25,14 @@ div.shadow-2xl.fixed.m-auto.inset-0.bg-white(class="w-1/2 h-1/2")
         id="body"
         placeholder="Email Body"
         v-model="body")
-      button.bg-red-500.float-right.bottom-2.mx-4(type="button" @click="setCurrentItem('')")
-        close.inline.mr-2.-ml-2.mb-1.text-xl
-        .inline CANCEL
-      button.bg-blue-500.float-right.bottom-2(type="submit" form="contactform")
+  template(v-slot:actions)
+    .flex.bg-white.justify-end.pb-2
+      button.bg-blue-500(type="submit" form="contactform")
         send.inline.mr-2.-ml-2.mb-1.text-xl
         .inline SEND
-      
+      button.bg-red-500.mx-4(type="button" @click="setCurrentItem('')")
+        close.inline.mr-2.-ml-2.mb-1.text-xl
+        .inline CANCEL
 </template>
 
 <script lang="ts">
@@ -39,10 +41,13 @@ import API from '@/composables/api'
 import {Close, Send} from 'mdue'
 import {createAlert} from '@/composables/alerts'
 
+import Modal from '@/components/Modal.vue'
+
 export default {
   name: "Contact",
   components: {
     Close,
+    Modal,
     Send
   },
   data() {

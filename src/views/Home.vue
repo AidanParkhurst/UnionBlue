@@ -4,7 +4,7 @@ template(v-for='item in items')
     :name="item.name"
     :desc="item.desc"
     :contact="item.contact"
-    :imgsrc="'/img/' + item.img"
+    :imgsrc="item.img"
     :id ="item.id"
   )
   hr.border.border-blue-200(class='w-3/5 m-auto')
@@ -14,12 +14,14 @@ Contact(v-if="currentItem")
 <script lang="ts">
 import Item from '@/components/Item.vue'
 import Contact from '@/components/Contact.vue'
+import Modal from '@/components/Modal.vue'
 
 import {currentItem, getItems} from '@/composables/item'
 
 export default {
   name: 'Home',
   components: {
+    Modal,
     Item,
     Contact
   },
