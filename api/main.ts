@@ -2,6 +2,7 @@ const path = require('path')
 
 const inventory = require('./data/items.json')
 let items = inventory.items
+let start = items.length
 
 const contacts = require('./data/contacts.json')
 
@@ -44,7 +45,7 @@ app.post('/api/contact', (req, res) => {
 
   transporter.sendMail(mailOptions, function(error, info) {
     if(error) {
-      res.status(500).send(error)
+      res.status(409).send(error)
     } else {
       res.send('Email sent: ' + info.response)
     }
@@ -56,20 +57,16 @@ app.post('/api/addItem', (req, res) => {
   let prevLen = items.length
 
   items.push({
-    'id': items.length.toString(),
+    'id': (start++).toString(),
     'name': addData.name,
     'desc': addData.desc,
     'img': addData.img
   })
 
-  if(prevLen >= items.length) {
+  if(prevLen < items.length) {
     res.send('Item added!')
   } else {
-<<<<<<< HEAD
-    res.status(500).send('Could not add item')
-=======
-    res.send('Could not add item')
->>>>>>> cdebce5c1d490fb02351b1b34b78c43e29f7d559
+    res.status(409).send('Could not add item')
   }
 })
 
@@ -82,7 +79,7 @@ app.post('/api/deleteItem', (req,res) => {
   if(prevLen <= items.length) {
     res.send('Item deleted!')
   } else {
-    res.send('Could not find item')
+    res.status(409).send('Could not find item')
   }
 })
 

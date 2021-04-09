@@ -1,5 +1,4 @@
 <template lang="pug">
-Modal
 template(v-for='item in items')
   Item(
     :name="item.name"
