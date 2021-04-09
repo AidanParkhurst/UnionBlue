@@ -65,7 +65,11 @@ app.post('/api/addItem', (req, res) => {
   if(prevLen >= items.length) {
     res.send('Item added!')
   } else {
+<<<<<<< HEAD
     res.status(500).send('Could not add item')
+=======
+    res.send('Could not add item')
+>>>>>>> cdebce5c1d490fb02351b1b34b78c43e29f7d559
   }
 })
 
