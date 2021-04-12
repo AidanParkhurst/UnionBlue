@@ -11,7 +11,7 @@ div(class="w-1/2 m-auto")
       td {{item.desc}}
       td
         delete-forever.icon(@click='deleteItem = item')
-        pencil.icon.ml-2(@click='editItem = item')
+        pencil.icon.ml-2(@click='editItem = item; editId = item.id')
     td.text-center(colspan="3")
       button.bg-blue-500(@click='showAdd = true')
         plus.inline.mr-1.-ml-2
@@ -110,11 +110,11 @@ Modal(v-if="editItem")
   template(v-slot:actions)
     .flex.bg-white.justify-end.pb-2
       button.bg-blue-500(
-        @click='editItem = null')
+        type="submit" form="editForm")
         pencil.inline.mr-2.-ml-2.mb-1.text-xl
         .inline CONFIRM
       button.bg-red-500.mx-4(
-        @click='editItem = null')
+        @click='editItem = null; editId = ""')
         close.inline.mr-2.-ml-2.mb-1.text-xl
         .inline CANCEL
 </template>
@@ -145,7 +145,8 @@ export default{
 
       showAdd: false,
       deleteItem: "",
-      editItem: "",
+      editItem: null,
+      editId: "",
 
       itemName: '',
       itemImg: '',
@@ -170,7 +171,6 @@ export default{
     },
 
     submitDelete(id: Text) {
-      console.log("deleting: " + id)
       API.post('/api/deleteItem', {
         'id': id,
       }).then((response) => {
@@ -178,6 +178,23 @@ export default{
         this.items = getItems()
       }, (error) => {
         createAlert('Error Deleting Item!', 'error')
+      })
+    },
+
+    submitEdit() {
+      API.post('/api/editItem', {
+        'id': this.editId,
+        'name': this.itemName,
+        'img': this.itemImg,
+        'contact': this.itemContact,
+        'desc': this.itemDesc
+      }).then((response) => {
+        createAlert('Item Edited!', 'success')
+        this.items = getItems()
+        this.editItem = null
+        this.editId = ""
+      }, (error) => {
+        createAlert('Error Editing Item!', 'error')
       })
     }
   }

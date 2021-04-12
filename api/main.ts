@@ -4,7 +4,8 @@ const inventory = require('./data/items.json')
 let items = inventory.items
 let start = items.length
 
-const contacts = require('./data/contacts.json')
+const contactData = require('./data/contacts.json')
+let contacts = contactData
 
 const express = require('express')
 const app = express()
@@ -55,18 +56,40 @@ app.post('/api/contact', (req, res) => {
 app.post('/api/addItem', (req, res) => {
   const addData = req.body
   let prevLen = items.length
+  let newId = (start++).toString()
 
   items.push({
-    'id': (start++).toString(),
+    'id': newId,
     'name': addData.name,
     'desc': addData.desc,
     'img': addData.img
   })
+  contacts[newId] = addData.contact
 
   if(prevLen < items.length) {
     res.send('Item added!')
   } else {
     res.status(409).send('Could not add item')
+  }
+})
+
+app.post('/api/editItem', (req, res) => {
+  const editData = req.body
+  let edited = false
+
+  for(let i of items) {
+    if(i.id == editData.id) {
+      i.name = editData.name || i.name
+      i.img = editData.img || i.img
+      i.desc = editData.desc || i.desc
+      contacts[i.id] = editData.contact || contacts[i.id]
+      edited = true
+    }
+  }
+  if(edited) {
+    res.send("Item edited!")
+  } else {
+    res.status(409).send("Could not find item")
   }
 })
 
@@ -76,7 +99,7 @@ app.post('/api/deleteItem', (req,res) => {
 
   items = items.filter((x) => {return x.id !== deleteData.id})
   
-  if(prevLen <= items.length) {
+  if(prevLen >= items.length) {
     res.send('Item deleted!')
   } else {
     res.status(409).send('Could not find item')
