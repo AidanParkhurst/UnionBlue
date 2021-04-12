@@ -99,7 +99,7 @@ app.post('/api/deleteItem', (req,res) => {
 
   items = items.filter((x) => {return x.id !== deleteData.id})
   
-  if(prevLen >= items.length) {
+  if(prevLen > items.length) {
     res.send('Item deleted!')
   } else {
     res.status(409).send('Could not find item')
