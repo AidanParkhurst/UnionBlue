@@ -5,20 +5,20 @@ div(class="w-2/5 mx-auto my-12")
     div.header
       h1 {{ name }}
     h2.text-xl.mt-4.p-4 {{ desc }}
-    button.absolute.bottom-4.inset-x-20.bg-blue-500(@click="setCurrentItem(id, name)")
-      email.inline.mr-2.mb-1.text-xl
-      .inline CONTACT
+    button.bg-blue-500(@click="$router.push('/product/' + name)")
+      view-week.inline.mr-2.mb-1.text-xl
+      .inline VIEW BRANDS
 
 </template>
 
 <script lang="ts">
 import {setCurrentItem} from '@/composables/item'
-import {Email} from 'mdue'
+import {ViewWeek} from 'mdue'
 
 export default {
   name: 'Item',
   components: {
-    Email
+    ViewWeek
   },
   props: {
     name: {
