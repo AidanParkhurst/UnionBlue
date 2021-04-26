@@ -1,6 +1,6 @@
 # Union Blue
 
-A page providing contact info for, and (possibly) the ability to purchase PPE for the labor union "The International Brotherhood of Teamsters"
+UnionBlue connects members of the Teamster's Union to lending institutions who can finance Personal Protective Equipment.
 
 ## Installing
 

@@ -1,8 +1,8 @@
 const path = require('path')
 
 const inventory = require('./data/items.json')
-let items = inventory.items
-let start = items.length
+let products = inventory
+let start = products.length
 
 const contactData = require('./data/contacts.json')
 let contacts = contactData
@@ -29,8 +29,8 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-app.get('/api/items', cors(), (req,res) => {
-  res.send(items)
+app.get('/api/inventory', cors(), (req,res) => {
+  res.send(products)
 })
 
 app.use(bodyParser.json());
@@ -53,58 +53,59 @@ app.post('/api/contact', (req, res) => {
   })
 })
 
-app.post('/api/addItem', (req, res) => {
-  const addData = req.body
-  let prevLen = items.length
-  let newId = (start++).toString()
+// TODO: ADD / EDIT / DELETE WITH BRANDS
+// app.post('/api/addItem', (req, res) => {
+//   const addData = req.body
+//   let prevLen = items.length
+//   let newId = (start++).toString()
 
-  items.push({
-    'id': newId,
-    'name': addData.name,
-    'desc': addData.desc,
-    'img': addData.img
-  })
-  contacts[newId] = addData.contact
+//   items.push({
+//     'id': newId,
+//     'name': addData.name,
+//     'desc': addData.desc,
+//     'img': addData.img
+//   })
+//   contacts[newId] = addData.contact
 
-  if(prevLen < items.length) {
-    res.send('Item added!')
-  } else {
-    res.status(409).send('Could not add item')
-  }
-})
+//   if(prevLen < items.length) {
+//     res.send('Item added!')
+//   } else {
+//     res.status(409).send('Could not add item')
+//   }
+// })
 
-app.post('/api/editItem', (req, res) => {
-  const editData = req.body
-  let edited = false
+// app.post('/api/editItem', (req, res) => {
+//   const editData = req.body
+//   let edited = false
 
-  for(let i of items) {
-    if(i.id == editData.id) {
-      i.name = editData.name || i.name
-      i.img = editData.img || i.img
-      i.desc = editData.desc || i.desc
-      contacts[i.id] = editData.contact || contacts[i.id]
-      edited = true
-    }
-  }
-  if(edited) {
-    res.send("Item edited!")
-  } else {
-    res.status(409).send("Could not find item")
-  }
-})
+//   for(let i of items) {
+//     if(i.id == editData.id) {
+//       i.name = editData.name || i.name
+//       i.img = editData.img || i.img
+//       i.desc = editData.desc || i.desc
+//       contacts[i.id] = editData.contact || contacts[i.id]
+//       edited = true
+//     }
+//   }
+//   if(edited) {
+//     res.send("Item edited!")
+//   } else {
+//     res.status(409).send("Could not find item")
+//   }
+// })
 
-app.post('/api/deleteItem', (req,res) => {
-  const deleteData = req.body
-  let prevLen = items.length
+// app.post('/api/deleteItem', (req,res) => {
+//   const deleteData = req.body
+//   let prevLen = items.length
 
-  items = items.filter((x) => {return x.id !== deleteData.id})
+//   items = items.filter((x) => {return x.id !== deleteData.id})
   
-  if(prevLen > items.length) {
-    res.send('Item deleted!')
-  } else {
-    res.status(409).send('Could not find item')
-  }
-})
+//   if(prevLen > items.length) {
+//     res.send('Item deleted!')
+//   } else {
+//     res.status(409).send('Could not find item')
+//   }
+// })
 
 app.use('/img', express.static(path.join(__dirname,'/img')))
 

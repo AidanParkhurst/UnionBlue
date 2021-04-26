@@ -12,9 +12,11 @@ import {getItems} from '@/composables/item'
 
 export default {
   name: 'Brands',
-  setup() {
-    let items = getItems()
-    return {items}
+  data() {
+    let items = getItems(this.$route.params.id.toString())
+    return {
+      items
+    }
   }
 }
 </script>

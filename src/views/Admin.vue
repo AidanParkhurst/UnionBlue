@@ -120,7 +120,7 @@ Modal(v-if="editItem")
 </template>
 
 <script lang="ts">
-import {getItems} from '@/composables/item'
+import {getProducts} from '@/composables/item'
 import {createAlert} from '@/composables/alerts'
 import API from '@/composables/api'
 
@@ -141,7 +141,7 @@ export default{
   },
   data() {
     return {
-      items: getItems(),
+      items: getProducts(),
 
       showAdd: false,
       deleteItem: "",
@@ -163,7 +163,7 @@ export default{
         'desc': this.itemDesc
       }).then((response) => {
         createAlert('Item Added!', 'success')
-        this.items = getItems()
+        this.items = getProducts()
         this.showAdd = false
       }, (error) => {
         createAlert('Error Adding Item!', 'error')
@@ -175,7 +175,7 @@ export default{
         'id': id,
       }).then((response) => {
         createAlert('Item Deleted!', 'success')
-        this.items = getItems()
+        this.items = getProducts()
       }, (error) => {
         createAlert('Error Deleting Item!', 'error')
       })
@@ -190,7 +190,7 @@ export default{
         'desc': this.itemDesc
       }).then((response) => {
         createAlert('Item Edited!', 'success')
-        this.items = getItems()
+        this.items = getProducts()
         this.editItem = null
         this.editId = ""
       }, (error) => {
