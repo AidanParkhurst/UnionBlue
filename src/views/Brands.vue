@@ -1,21 +1,58 @@
 <template lang="pug">
-h1.section.text-center {{$route.params.id}}
-div.m-auto.flex.items-center.justify-center(class="w-3/5")
+h1.section.text-5xl.text-center {{product.product}}
+div.m-auto.flex.items-center.justify-around(class="w-5/6")
   template(v-for='item in items')
-    div.mx-4.bg-red-400(class="h-80 w-80")
-      div.header
-        h1 {{ item.name }}
+    div(class="w-1/4")
+      div.flex.justify-center(class="h-80")
+        img(:src='item.img' class="max-h-full")
+      div.text-center.w-full
+        h1.font-bold.text-blue-500 {{ item.name }}
+        hr.border.border-blue-300.w-full
+        h2.text-3xl {{item.desc}}
+      div.flex.justify-center.my-12
+        button.bg-blue-500.mx-auto(@click="setCurrentItem(item.id, item.name)")
+          email.inline.mr-2.mb-1.text-xl
+          .inline CONTACT
+Contact(v-if="currentItem")
 </template>
 
 <script lang="ts">
-import {getItems} from '@/composables/item'
+import Contact from '@/components/Contact.vue'
+import {Email} from 'mdue'
+
+import {currentItem, getProducts, setCurrentItem} from '@/composables/item'
+import {useRoute} from 'vue-router'
+import {computed} from 'vue'
 
 export default {
   name: 'Brands',
-  data() {
-    let items = getItems(this.$route.params.id.toString())
+  components: {
+    Contact,
+    Email
+  },
+  setup() {
+    const route = useRoute()
+    let products = getProducts()
+    
+    let product = computed(() => {
+      let current = products.value.find((x) => {return x.id == route.params.id})
+      if(!current) return {product:""}
+      return current
+    })
+
+    let items = computed(() => {
+      return product.value.items
+    })
+
     return {
-      items
+      items,
+      product
+    }
+  },
+  data() {
+    return {
+      currentItem,
+      setCurrentItem
     }
   }
 }

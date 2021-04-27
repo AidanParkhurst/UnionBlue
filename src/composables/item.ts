@@ -13,13 +13,6 @@ export const getProducts = () => {
   return products
 }
 
-export const getItems = (id: String) => {
-  let product = products.value.find((x) => {return x.id == id})
-  if(!product) return []
-  
-  return product.items
-}
-
 export const setCurrentItem = (item: string, itemName: string = "") => {
   currentItem.value = item
   currentItemName.value = itemName

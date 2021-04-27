@@ -8,13 +8,13 @@
         "id": "0",
         "name": "KC500 Nitrile Gloves",
         "desc": "Non-sterile nitrile gloves, coming in boxes of 50",
-        "img": "/img/gloves.png"
+        "img": "/img/kc500.jpeg"
       },
       {
         "id": "1",
-        "name": "Pretend Nitrile Gloves",
+        "name": "Meijer Nitrile Gloves",
         "desc": "Different, non-sterile nitrile gloves, coming in boxes of 200",
-        "img": "/img/gloves.png"
+        "img": "/img/meijer.png"
       },
       {
         "id": "2",
