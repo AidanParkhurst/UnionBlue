@@ -2,7 +2,6 @@ const path = require('path')
 
 const inventory = require('./data/items.json')
 let products = inventory
-let start = products.length
 
 const contactData = require('./data/contacts.json')
 let contacts = contactData
@@ -16,6 +15,8 @@ const bodyParser = require('body-parser')
 
 const auth = require('./auth.json')
 const nodemailer = require('nodemailer')
+
+const {nanoid} = require('nanoid')
 
 const transporter = nodemailer.createTransport({      
   service: 'gmail',
@@ -53,59 +54,71 @@ app.post('/api/contact', (req, res) => {
   })
 })
 
-// TODO: ADD / EDIT / DELETE WITH BRANDS
-// app.post('/api/addItem', (req, res) => {
-//   const addData = req.body
-//   let prevLen = items.length
-//   let newId = (start++).toString()
+app.post('/api/addItem', (req, res) => {
+  const addData = req.body
+  let product = products.find((x) => {return x.id == addData.productId})
+  if(!product) {
+    res.status(409).send('Error adding item: Could not find product type')
+  }
+  let prevLen = product.items.length
 
-//   items.push({
-//     'id': newId,
-//     'name': addData.name,
-//     'desc': addData.desc,
-//     'img': addData.img
-//   })
-//   contacts[newId] = addData.contact
+  let newId = nanoid(8)
 
-//   if(prevLen < items.length) {
-//     res.send('Item added!')
-//   } else {
-//     res.status(409).send('Could not add item')
-//   }
-// })
+  product.items.push({
+    'id': newId,
+    'name': addData.name,
+    'desc': addData.desc,
+    'img': addData.img
+  })
+  contacts[newId] = addData.contact
 
-// app.post('/api/editItem', (req, res) => {
-//   const editData = req.body
-//   let edited = false
+  if(prevLen < product.items.length) {
+    res.send('Item added!')
+  } else {
+    res.status(409).send('Could not add item')
+  }
+})
 
-//   for(let i of items) {
-//     if(i.id == editData.id) {
-//       i.name = editData.name || i.name
-//       i.img = editData.img || i.img
-//       i.desc = editData.desc || i.desc
-//       contacts[i.id] = editData.contact || contacts[i.id]
-//       edited = true
-//     }
-//   }
-//   if(edited) {
-//     res.send("Item edited!")
-//   } else {
-//     res.status(409).send("Could not find item")
-//   }
-// })
+app.post('/api/editItem', (req, res) => {
+  const editData = req.body
+  let product = products.find((x) => {return x.id == editData.productId})
+  if(!product) {
+    res.status(409).send('Error editing item: Could not find product type')
+  }
+  let edited = false
 
-// app.post('/api/deleteItem', (req,res) => {
-//   const deleteData = req.body
-//   let prevLen = items.length
+  for(let i of product.items) {
+    if(i.id == editData.id) {
+      i.name = editData.name || i.name
+      i.img = editData.img || i.img
+      i.desc = editData.desc || i.desc
+      contacts[i.id] = editData.contact || contacts[i.id]
+      edited = true
+    }
+  }
+  if(edited) {
+    res.send("Item edited!")
+  } else {
+    res.status(409).send("Could not find item")
+  }
+})
 
-//   items = items.filter((x) => {return x.id !== deleteData.id})
+app.post('/api/deleteItem', (req,res) => {
+  const deleteData = req.body
+  let product = products.find((x) => {return x.id == deleteData.type})
+  if(!product) {
+    res.status(409).send('Error deleting item: Could not find product type')
+  }
+  let prevLen = product.items.length
+
+  product.items = product.items.filter((x) => {return x.id !== deleteData.id})
   
-//   if(prevLen > items.length) {
-//     res.send('Item deleted!')
-//   } else {
-//     res.status(409).send('Could not find item')
-//   }
-// })
+  if(prevLen > product.items.length) {
+    res.send('Item deleted!')
+  } else {
+    res.status(409).send('Could not find item')
+  }
+})
 
 app.use('/img', express.static(path.join(__dirname,'/img')))
 

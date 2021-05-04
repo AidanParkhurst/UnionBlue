@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "mdue": "^0.1.4",
+    "nanoid": "^3.1.22",
     "nodemailer": "^6.5.0",
     "vue": "^3.0.2",
     "vue-router": "4"

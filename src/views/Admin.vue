@@ -6,12 +6,13 @@ div(class="w-1/2 m-auto")
       th Name
       th Description
       th Actions
-    tr(v-for='item in items')
-      td {{item.name}}
-      td {{item.desc}}
-      td
-        delete-forever.icon(@click='deleteItem = item')
-        pencil.icon.ml-2(@click='editItem = item; editId = item.id')
+    template(v-for='product in products')
+      tr(v-for='item in product.items')
+        td {{item.name}}
+        td {{item.desc}}
+        td
+          delete-forever.icon(@click='deleteItem = item; deleteType = product.id')
+          pencil.icon.ml-2(@click='editItem = item; editId = item.id; itemType = product.id')
     td.text-center(colspan="3")
       button.bg-blue-500(@click='showAdd = true')
         plus.inline.mr-1.-ml-2
@@ -23,6 +24,10 @@ Modal(v-if="showAdd")
   template(v-slot:body)
     div.p-4
       form(id="addForm" @submit.prevent="submitAdd")
+        label.text-2xl(for="type") Product Type:
+        select(id='type' v-model='itemType')
+          template(v-for='product in products')
+            option.text-input(:value='product.id' placeholder='Nitrile Gloves') {{product.product}}
         div.py-2
           label.text-2xl(for="name") Name:
           input.text-input.mx-4.px-2(class="w-3/4"
@@ -30,13 +35,12 @@ Modal(v-if="showAdd")
             id="name"
             placeholder="Descriptive Item Name"
             v-model='itemName')
-        div.py-2
-          label.text-2xl(for="img") Image:
-          input.text-input.mx-4.px-2(class="w-3/4"
-            type="text"
-            id="img"
-            placeholder="Link to Item Image"
-            v-model='itemImg')
+        label.text-2xl(for="img") Image:
+        input.text-input.mx-4.px-2(class="w-3/4"
+          type="text"
+          id="img"
+          placeholder="Link to Item Image"
+          v-model='itemImg')
         div.py-2
           label.text-2xl(for="contact") Contact:
           input.text-input.mx-4.px-2(class="w-3/4"
@@ -67,7 +71,7 @@ Modal(v-if="deleteItem")
   template(v-slot:actions)
     .flex.bg-white.justify-end.pb-2
       button.bg-blue-500(
-        @click='submitDelete(deleteItem.id); deleteItem = null')
+        @click='submitDelete(deleteItem.id, deleteType); deleteItem = null; deleteType = ""')
         delete-forever.inline.mr-2.-ml-2.mb-1.text-xl
         .inline DELETE
       button.bg-red-500.mx-4(
@@ -141,13 +145,15 @@ export default{
   },
   data() {
     return {
-      items: getProducts(),
+      products: getProducts(),
 
       showAdd: false,
-      deleteItem: "",
+      deleteItem: null,
+      deleteType: "",
       editItem: null,
       editId: "",
 
+      itemType: '',
       itemName: '',
       itemImg: '',
       itemContact: '',
@@ -157,25 +163,27 @@ export default{
   methods: {
     submitAdd() {
       API.post('/api/addItem', {
+        'productId': this.itemType,
         'name': this.itemName,
         'img': this.itemImg,
         'contact': this.itemContact,
         'desc': this.itemDesc
       }).then((response) => {
         createAlert('Item Added!', 'success')
-        this.items = getProducts()
+        this.products = getProducts()
         this.showAdd = false
       }, (error) => {
         createAlert('Error Adding Item!', 'error')
       })
     },
 
-    submitDelete(id: Text) {
+    submitDelete(itemId: Text, productType: Text) {
       API.post('/api/deleteItem', {
-        'id': id,
+        'type': productType,
+        'id': itemId,
       }).then((response) => {
         createAlert('Item Deleted!', 'success')
-        this.items = getProducts()
+        this.products = getProducts()
       }, (error) => {
         createAlert('Error Deleting Item!', 'error')
       })
@@ -183,6 +191,7 @@ export default{
 
     submitEdit() {
       API.post('/api/editItem', {
+        'productId': this.itemType,
         'id': this.editId,
         'name': this.itemName,
         'img': this.itemImg,
@@ -190,7 +199,7 @@ export default{
         'desc': this.itemDesc
       }).then((response) => {
         createAlert('Item Edited!', 'success')
-        this.items = getProducts()
+        this.products = getProducts()
         this.editItem = null
         this.editId = ""
       }, (error) => {
