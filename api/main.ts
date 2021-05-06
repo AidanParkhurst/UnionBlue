@@ -15,6 +15,7 @@ const bodyParser = require('body-parser')
 
 const auth = require('./auth.json')
 const nodemailer = require('nodemailer')
+const axios = require('axios').create({})
 
 const {nanoid} = require('nanoid')
 
@@ -23,14 +24,17 @@ const {encode, decode} = require('jwt-simple')
 const JWT_ALGORITHM = "HS512"
 
 const transporter = nodemailer.createTransport({      
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: {
     type: 'OAuth2',
     user: auth.data.email,
-    pass: auth.data.pass,
     clientId: auth.data.clientId,
     clientSecret: auth.data.clientSecret,
-    refreshToken: auth.data.refreshToken
+    refreshToken: auth.data.refreshToken,
+    accessToken: auth.data.accessToken,
+    expires: 3500
   }
 });
 
