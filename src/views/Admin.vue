@@ -126,7 +126,7 @@ Modal(v-if="editItem")
 <script lang="ts">
 import {getProducts} from '@/composables/item'
 import {createAlert} from '@/composables/alerts'
-import API from '@/composables/api'
+import {API, jwtToken} from '@/composables/api'
 
 import {Close, DeleteForever, Pencil, Plus, Send, Upload} from 'mdue'
 
@@ -146,6 +146,7 @@ export default{
   data() {
     return {
       products: getProducts(),
+      jwtToken,
 
       showAdd: false,
       deleteItem: null,
@@ -163,6 +164,7 @@ export default{
   methods: {
     submitAdd() {
       API.post('/api/addItem', {
+        'token': this.jwtToken,
         'productId': this.itemType,
         'name': this.itemName,
         'img': this.itemImg,
@@ -179,6 +181,7 @@ export default{
 
     submitDelete(itemId: Text, productType: Text) {
       API.post('/api/deleteItem', {
+        'token': this.jwtToken,
         'type': productType,
         'id': itemId,
       }).then((response) => {
@@ -191,6 +194,7 @@ export default{
 
     submitEdit() {
       API.post('/api/editItem', {
+        'token': this.jwtToken,
         'productId': this.itemType,
         'id': this.editId,
         'name': this.itemName,

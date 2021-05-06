@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {ref} from 'vue'
 
 enum HTTPResponse {
   BadRequest = 400,
@@ -10,7 +11,9 @@ enum HTTPResponse {
   InternalServerError = 500,
 }
 
-const API = axios.create({})
+export const jwtToken = ref('')
+
+export const API = axios.create({})
 API.interceptors.response.use(
   (res) => {
     return res
@@ -52,4 +55,9 @@ API.interceptors.response.use(
     return Promise.reject(rej)
   }
 )
+
+export function setToken(token: string) {
+  jwtToken.value = token
+}
+
 export default API

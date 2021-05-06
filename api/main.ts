@@ -18,6 +18,10 @@ const nodemailer = require('nodemailer')
 
 const {nanoid} = require('nanoid')
 
+const bcrypt = require('bcrypt')
+const {encode, decode} = require('jwt-simple')
+const JWT_ALGORITHM = "HS512"
+
 const transporter = nodemailer.createTransport({      
   service: 'gmail',
   auth: {
@@ -29,6 +33,32 @@ const transporter = nodemailer.createTransport({
     refreshToken: auth.data.refreshToken
   }
 });
+
+const createToken = () => {
+  const issued = Date.now()
+  const thirtyMins = 30 * 60 * 1000
+  const expires = issued + (thirtyMins)
+  const data = {
+    "status": "admin",
+    issued: issued,
+    expires: expires
+  }
+  return encode(data, auth.data.jwtSig, JWT_ALGORITHM)
+}
+
+const verifyToken = (token) => {
+  if(!token) {
+    return false
+  }
+  try {
+    let result = decode(token, auth.data.jwtSig, false, JWT_ALGORITHM)
+    let now = Date.now()
+    return (result.expires > now)
+  }
+  catch (_e) {
+    return false
+  }
+}
 
 app.get('/api/inventory', cors(), (req,res) => {
   res.send(products)
@@ -56,9 +86,14 @@ app.post('/api/contact', (req, res) => {
 
 app.post('/api/addItem', (req, res) => {
   const addData = req.body
+  let token = addData.token
+  if (!verifyToken(token)) {
+    return res.status(403).send('Invalid token')
+  }
+  
   let product = products.find((x) => {return x.id == addData.productId})
   if(!product) {
-    res.status(409).send('Error adding item: Could not find product type')
+    return res.status(409).send('Error adding item: Could not find product type')
   }
   let prevLen = product.items.length
 
@@ -81,9 +116,14 @@ app.post('/api/addItem', (req, res) => {
 
 app.post('/api/editItem', (req, res) => {
   const editData = req.body
+  let token = editData.token
+  if (!verifyToken(token)) {
+    return res.status(403).send('Invalid token')
+  }
+
   let product = products.find((x) => {return x.id == editData.productId})
   if(!product) {
-    res.status(409).send('Error editing item: Could not find product type')
+    return res.status(409).send('Error editing item: Could not find product type')
   }
   let edited = false
 
@@ -105,9 +145,14 @@ app.post('/api/editItem', (req, res) => {
 
 app.post('/api/deleteItem', (req,res) => {
   const deleteData = req.body
+  let token = deleteData.token
+  if (!verifyToken(token)) {
+    return res.status(403).send('Invalid token')
+  }
+
   let product = products.find((x) => {return x.id == deleteData.type})
   if(!product) {
-    res.status(409).send('Error deleting item: Could not find product type')
+    return res.status(409).send('Error deleting item: Could not find product type')
   }
   let prevLen = product.items.length
 
@@ -118,6 +163,19 @@ app.post('/api/deleteItem', (req,res) => {
   } else {
     res.status(409).send('Could not find item')
   }
+})
+
+app.post('/api/login', (req, res) => {
+  const loginData = req.body
+  bcrypt.compare(loginData.pass, auth.data.adminKey, function(err, result) {
+    if (result) {
+      const adminToken = createToken()
+      res.status(201).json(adminToken)
+    }
+    else {
+      res.status(403).send('Invalid pass')
+    }
+  })
 })
 
 app.use('/img', express.static(path.join(__dirname,'/img')))
