@@ -4,9 +4,10 @@ main.relative.h-screen
   Alert(v-if='alert.active' :type='alert.type' :text='alert.text')
   router-view(v-if='!onAdmin || jwtToken')
   div.w-full.flex.justify-center.items-center(v-else)
-    input.p-2.rounded-md.text-3xl.border(v-model="password" placeholder='Password')
-    button.bg-blue-500.m-12(@click='signIn')
-      h2 SIGN IN
+    form(id='passForm' @submit.prevent='signIn')
+      input.p-2.rounded-md.text-3xl.border(v-model="password" type="password" placeholder='Password')
+      button.bg-blue-500.m-12(@click='signIn')
+        h2 SIGN IN
 </template>
 
 <script lang="ts">

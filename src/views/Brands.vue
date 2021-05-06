@@ -1,8 +1,8 @@
 <template lang="pug">
 h1.section.text-5xl.text-center {{product.product}}
-div.m-auto.flex.items-center.justify-around(class="w-5/6")
-  template(v-for='item in items')
-    div(class="w-1/4")
+div.m-auto.flex.items-center.justify-center(class="w-full")
+  div.grid.gap-4(:class="gridClasses")
+    div.max-w-sm(v-for='item in items')
       div.flex.justify-center(class="h-80")
         img(:src='item.img' class="max-h-full")
       div.text-center.w-full
@@ -47,6 +47,18 @@ export default {
     return {
       items,
       product
+    }
+  },
+  computed: {
+    gridClasses() {
+      let sizes = [['sm',2],['md',3],['lg',4]]
+      let max = this.items.length
+      let base = "grid-cols-1"
+      for(let size of sizes) {
+        let cols = max < size[1] ? max : size[1]
+        base = base + " " + (size[0] + ":grid-cols-" + cols)
+      }
+      return base
     }
   },
   data() {
