@@ -18,7 +18,7 @@ Modal
           input.text-input.mx-4.px-2(class="w-3/4"
             type="text"
             id="subject"
-            :placeholder="'IE: \"Order for \"' + currentItemName + '\"'",
+            :placeholder="'IE: \"Order for ' + currentItemName + '\"'",
             v-model="subject")
       textarea.text-input.my-2.p-2.w-full.h-52(
         form="contactform"
