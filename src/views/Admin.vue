@@ -104,7 +104,7 @@ Modal(v-if="editItem")
           input.text-input.mx-4.px-2(class="w-3/4"
             type="text"
             id="contact"
-            placeholder="Contact's Email"
+            :placeholder="contacts[editId]"
             v-model='itemContact')
         textarea.text-input.my-2.p-2.w-full.h-40(
           form="addForm"
@@ -124,7 +124,7 @@ Modal(v-if="editItem")
 </template>
 
 <script lang="ts">
-import {getProducts} from '@/composables/item'
+import {getContacts, getProducts} from '@/composables/item'
 import {createAlert} from '@/composables/alerts'
 import {API, jwtToken} from '@/composables/api'
 
@@ -145,7 +145,8 @@ export default{
   },
   data() {
     return {
-      products: getProducts(),
+      contacts: getContacts(),
+      products: getProducts(), 
       jwtToken,
 
       showAdd: false,
@@ -170,11 +171,10 @@ export default{
         'img': this.itemImg,
         'contact': this.itemContact,
         'desc': this.itemDesc
-      }).then((response) => {
+      }).then((_response) => {
         createAlert('Item Added!', 'success')
-        this.products = getProducts()
-        this.showAdd = false
-      }, (error) => {
+        this.cleanup()
+      }, (_error) => {
         createAlert('Error Adding Item!', 'error')
       })
     },
@@ -184,10 +184,10 @@ export default{
         'token': this.jwtToken,
         'type': productType,
         'id': itemId,
-      }).then((response) => {
+      }).then((_response) => {
         createAlert('Item Deleted!', 'success')
-        this.products = getProducts()
-      }, (error) => {
+        this.cleanup()
+      }, (_error) => {
         createAlert('Error Deleting Item!', 'error')
       })
     },
@@ -201,14 +201,25 @@ export default{
         'img': this.itemImg,
         'contact': this.itemContact,
         'desc': this.itemDesc
-      }).then((response) => {
+      }).then((_response) => {
         createAlert('Item Edited!', 'success')
-        this.products = getProducts()
-        this.editItem = null
-        this.editId = ""
-      }, (error) => {
+        this.cleanup()
+      }, (_error) => {
         createAlert('Error Editing Item!', 'error')
       })
+    },
+
+    cleanup() {
+      this.products = getProducts()
+      this.contacts = getContacts()
+      this.itemType = ''
+      this.itemName = ''
+      this.itemImg = ''
+      this.itemContact = ''
+      this.itemDesc = ''
+      this.editItem = null
+      this.editId = ""
+      this.showAdd = false
     }
   }
 }

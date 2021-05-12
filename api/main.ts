@@ -70,6 +70,15 @@ app.get('/api/inventory', cors(), (req,res) => {
 
 app.use(bodyParser.json());
 
+app.post('/api/contacts', (req, res) => {
+  const contactsData = req.body
+  let token = contactsData.token
+  if (!verifyToken(token)) {
+    return res.status(403).send('Invalid token')
+  }
+  res.status(201).json(contacts)
+})
+
 app.post('/api/contact', (req, res) => {
   const emailData = req.body
   var mailOptions = {
