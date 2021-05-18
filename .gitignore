@@ -3,3 +3,4 @@ node_modules
 dist
 *.local
 api/auth.json
+api/data/contacts.json
